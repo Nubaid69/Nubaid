@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realistic Solar System</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .planet-label {
+            position: absolute;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="planet-label" id="sun-label">Sun</div>
+    <div class="planet-label" id="mercury-label">Mercury</div>
+    <div class="planet-label" id="venus-label">Venus</div>
+    <div class="planet-label" id="earth-label">Earth</div>
+    <div class="planet-label" id="moon-label">Moon</div>
+    <div class="planet-label" id="mars-label">Mars</div>
+    <div class="planet-label" id="jupiter-label">Jupiter</div>
+    <div class="planet-label" id="saturn-label">Saturn</div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const sun = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 50,
+            color: '#ffcc00'
+        };
+
+        const mercury = {
+            x: sun.x + 50,
+            y: sun.y,
+            radius: 4,
+            color: '#8f8f8f',
+            angle: 0,
+            speed: 0.01
+        };
+
+        const venus = {
+            x: sun.x + 80,
+            y: sun.y,
+            radius: 6,
+            color: '#e6e6e6',
+            angle: 0,
+            speed: 0.008
+        };
+
+        const earth = {
+            x: sun.x + 120,
+            y: sun.y,
+            radius: 8,
+            color: '#0099cc',
+            angle: 0,
+            speed: 0.005
+        };
+
+        const moon = {
+            x: earth.x + 20,
+            y: earth.y,
+            radius: 2,
+            color: '#cccccc',
+            angle: 0,
+            speed: 0.02
+        };
+
+        const mars = {
+            x: sun.x + 160,
+            y: sun.y,
+            radius: 7,
+            color: '#ff3300',
+            angle: Math.PI / 2,
+            speed: 0.004
+        };
+
+        const jupiter = {
+            x: sun.x + 220,
+            y: sun.y,
+            radius: 15,
+            color: '#ff9900',
+            angle: Math.PI,
+            speed: 0.003
+        };
+
+        const saturn = {
+            x: sun.x + 300,
+            y: sun.y,
+            radius: 12,
+            color: '#ffdb58',
+            angle: Math.PI,
+            speed: 0.002
+        };
+
+        function updateLabels() {
+            const sunLabel = document.getElementById('sun-label');
+            sunLabel.style.left = sun.x - 10 + 'px';
+            sunLabel.style.top = sun.y + sun.radius + 15 + 'px';
+
+            const mercuryLabel = document.getElementById('mercury-label');
+            mercuryLabel.style.left = mercury.x - 20 + 'px';
+            mercuryLabel.style.top = mercury.y + mercury.radius + 15 + 'px';
+
+            const venusLabel = document.getElementById('venus-label');
+            venusLabel.style.left = venus.x - 20 + 'px';
+            venusLabel.style.top = venus.y + venus.radius + 15 + 'px';
+
+            const earthLabel = document.getElementById('earth-label');
+            earthLabel.style.left = earth.x - 20 + 'px';
+            earthLabel.style.top = earth.y + earth.radius + 15 + 'px';
+
+            const moonLabel = document.getElementById('moon-label');
+            moonLabel.style.left = moon.x - 15 + 'px';
+            moonLabel.style.top = moon.y + moon.radius + 15 + 'px';
+
+            const marsLabel = document.getElementById('mars-label');
+            marsLabel.style.left = mars.x - 20 + 'px';
+            marsLabel.style.top = mars.y + mars.radius + 15 + 'px';
+
+            const jupiterLabel = document.getElementById('jupiter-label');
+            jupiterLabel.style.left = jupiter.x - 20 + 'px';
+            jupiterLabel.style.top = jupiter.y + jupiter.radius + 15 + 'px';
+
+            const saturnLabel = document.getElementById('saturn-label');
+            saturnLabel.style.left = saturn.x - 20 + 'px';
+            saturnLabel.style.top = saturn.y + saturn.radius + 15 + 'px';
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        // Draw sun
+                        ctx.beginPath();
+            ctx.arc(sun.x, sun.y, sun.radius, 0, Math.PI * 2);
+            ctx.fillStyle = sun.color;
+            ctx.fill();
+
+            // Calculate Mercury's position
+            mercury.x = sun.x + 50 * Math.cos(mercury.angle);
+            mercury.y = sun.y + 50 * Math.sin(mercury.angle);
+
+            // Draw Mercury
+            ctx.beginPath();
+            ctx.arc(mercury.x, mercury.y, mercury.radius, 0, Math.PI * 2);
+            ctx.fillStyle = mercury.color;
+            ctx.fill();
+
+            mercury.angle += mercury.speed;
+
+            // Calculate Venus's position
+            venus.x = sun.x + 80 * Math.cos(venus.angle);
+            venus.y = sun.y + 80 * Math.sin(venus.angle);
+
+            // Draw Venus
+            ctx.beginPath();
+            ctx.arc(venus.x, venus.y, venus.radius, 0, Math.PI * 2);
+            ctx.fillStyle = venus.color;
+            ctx.fill();
+
+            venus.angle += venus.speed;
+
+            // Calculate Earth's position
+            earth.x = sun.x + 120 * Math.cos(earth.angle);
+            earth.y = sun.y + 120 * Math.sin(earth.angle);
+
+            // Draw Earth
+            ctx.beginPath();
+            ctx.arc(earth.x, earth.y, earth.radius, 0, Math.PI * 2);
+            ctx.fillStyle = earth.color;
+            ctx.fill();
+
+            earth.angle += earth.speed;
+
+            // Calculate Moon's position
+            moon.x = earth.x + 20 * Math.cos(moon.angle);
+            moon.y = earth.y + 20 * Math.sin(moon.angle);
+
+            // Draw Moon
+            ctx.beginPath();
+            ctx.arc(moon.x, moon.y, moon.radius, 0, Math.PI * 2);
+            ctx.fillStyle = moon.color;
+            ctx.fill();
+
+            moon.angle += moon.speed;
+
+            // Calculate Mars's position
+            mars.x = sun.x + 160 * Math.cos(mars.angle);
+            mars.y = sun.y + 160 * Math.sin(mars.angle);
+
+            // Draw Mars
+            ctx.beginPath();
+            ctx.arc(mars.x, mars.y, mars.radius, 0, Math.PI * 2);
+            ctx.fillStyle = mars.color;
+            ctx.fill();
+
+            mars.angle += mars.speed;
+
+            // Calculate Jupiter's position
+            jupiter.x = sun.x + 220 * Math.cos(jupiter.angle);
+            jupiter.y = sun.y + 220 * Math.sin(jupiter.angle);
+
+            // Draw Jupiter
+            ctx.beginPath();
+            ctx.arc(jupiter.x, jupiter.y, jupiter.radius, 0, Math.PI * 2);
+            ctx.fillStyle = jupiter.color;
+            ctx.fill();
+
+            jupiter.angle += jupiter.speed;
+
+            // Calculate Saturn's position
+            saturn.x = sun.x + 300 * Math.cos(saturn.angle);
+            saturn.y = sun.y + 300 * Math.sin(saturn.angle);
+
+            // Draw Saturn
+            ctx.beginPath();
+            ctx.arc(saturn.x, saturn.y, saturn.radius, 0, Math.PI * 2);
+            ctx.fillStyle = saturn.color;
+            ctx.fill();
+
+            saturn.angle += saturn.speed;
+
+            // Update labels
+            updateLabels();
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realistic Solar System</title>
+  <style>
+      body {
+          margin: 0;
+          overflow: hidden;
+          background-color: black; /* Set background color to black */
+      }
+
+      canvas {
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+
+      .planet-label {
+          position: absolute;
+          font-family: Arial, sans-serif;
+          font-size: 12px;
+          color: white;
+      }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div class="planet-label" id="sun-label">Sun</div>
+  <div class="planet-label" id="mercury-label">Mercury</div>
+  <div class="planet-label" id="venus-label">Venus</div>
+  <div class="planet-label" id="earth-label">Earth</div>
+  <div class="planet-label" id="moon-label">Moon</div>
+  <div class="planet-label" id="mars-label">Mars</div>
+  <div class="planet-label" id="jupiter-label">Jupiter</div>
+  <div class="planet-label" id="saturn-label">Saturn</div>
+
+  <script>
+      /* ... (rest of the JavaScript code remains unchanged) */
+  </script>
+</body>
+</html>
+
+
+           
